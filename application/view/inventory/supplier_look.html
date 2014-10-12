@@ -1,0 +1,96 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'inventory/supplier_edit'}" style="margin:0px" accept-charset="utf-8" method="post">
+            <div id="legend" class="">
+                <legend class="">查看供应商  <a href="{site 'inventory/supplier'}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a></legend>
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th style="width:130px;text-align:right">供应商名称</th>
+                    <td>
+                        {$var.company} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">联系人</th>
+                    <td>
+                        {$var.name} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">电话</th>
+                    <td>
+                        {$var.tel} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">传真</th>
+                    <td>
+                        {$var.fax} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">手机</th>
+                    <td>
+                        {$var.shouji} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">网址</th>
+                    <td>
+                        {$var.site} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">邮箱</th>
+                    <td>
+                        {$var.email} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">邮编</th>
+                    <td>
+                        {$var.pc} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">地址</th>
+                    <td>
+                        {$var.address} </td>
+                </tr>
+
+                <tr>
+                    <th style="text-align:right">备注</th>
+                    <td>
+                        {$var.beizhu} </td>
+                </tr>
+
+                <tr>
+                    <th style="text-align:right">创建人</th>
+                    <td>
+                        {$var.realname} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">创建日期</th>
+                    <td>{array_shift($this->t_date->get_lastdate((int)$var.create))} </td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">最后更新</th>
+                    <td>
+                        {$var.realname_replace}</td>
+                </tr>
+                <tr>
+                    <th style="text-align:right">更新日期</th>
+                    <td>
+                        {array_shift($this->t_date->get_lastdate((int)$var.replace))} </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></td>
+                    <td><a href="{site 'inventory/supplier'}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+    {view 'public/js'}
+</body>
+</html>

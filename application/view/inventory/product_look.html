@@ -1,0 +1,243 @@
+{if !empty($looktype)}
+{if $looktype==='1'}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>仓库</th>
+            <th>库存</th>
+            <th>报警</th>
+        </tr>
+    </thead>
+    <tbody>
+        {loop $inventory as $var}
+        <tr>
+            <td>{sprintf("%06d",$var.inventory_id)}</td>
+            <td>{$var.w_name}</td>
+            <td>{$var.quantity<=$var.lowest?'<span class="badge badge-important">'.$var.quantity.'</span>':$var.quantity}</td>
+            <td>{$var.lowest}</td>
+        </tr>
+        {/loop}
+    </tbody>
+</table>
+{elseif $looktype==='2'}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>仓库</th>
+            <th>入库</th>
+            <th>单位</th>
+            <th>入库日期</th>
+            <th>入库人</th>
+            <th>供应商</th>
+        </tr>
+    </thead>
+    <tbody>
+        {loop $warehouse as $var}
+        <tr>
+            <td>{sprintf("%06d",$var.w_id)}</td>
+            <td>{$var.w_name}</td>
+            <td>{$var.number}</td>
+            <td>{$var.unit}</td>
+            <td>{array_shift($this->t_date->get_lastdate((int)$var.time))}</td>
+            <td>{$var.w_members}</td>
+            <td>{$var.company}</td>
+        </tr>
+        {/loop}
+    </tbody>
+</table>
+{elseif $looktype==='3'}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>拨出仓库</th>
+            <th>拨入仓库</th>
+            <th>数量</th>
+            <th>创建人</th>
+            <th>时间</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {loop $warehouse_allocate as $var}
+        <tr>
+            <td>{sprintf("%06d",$var.id)}</td>
+            <td>{$var.out_w_name}</td>
+            <td>{$var.jin_w_name}</td>
+            <td>{$var.number}</td>
+            <td>{$var.realname}</td>
+            <td>{array_shift($this->t_date->get_lastdate((int)$var.time))}</td>
+        </tr>
+        {/loop}
+    </tbody>
+</table>
+{/if}
+{else}
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="legend" class="">
+            <legend class="">产品 <a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a> </legend>
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <th style="width:90px;text-align:right">产品货号</th>
+                <td>{$list.code}</td>
+
+                <th style="width:90px;text-align:right">产品名称</th>
+                <td>{$list.name}</td>
+
+
+                <th style="width:90px;text-align:right">产品分类</th>
+                <td>{$list.category} </td>
+
+                <th style="width:90px;text-align:right">最低库存报警</th>
+                <td>{$list.lowest}</td>
+            </tr>
+
+            <tr>
+                <th style="text-align:right">产品单位</th>
+                <td>{$list.unit}</td>
+
+                <th style="text-align:right">销售价</th>
+                <td>{$list.sales}</td>
+
+                <th style="text-align:right">进货价</th>
+                <td>{$list.purchase}</td>
+
+                <th style="text-align:right">购买所需积分</th>
+                <td>{$list.points}</td>
+            </tr>
+
+            <tr>
+                <th style="text-align:right">产品类型</th>
+                <td>{$list.type==='1'?'正常':'赠品'}</td>
+
+                <th style="text-align:right">提成方式</th>
+                <td>{$list.deduct_type==='1'?' 百分比':'固定值'}</td>
+
+                <th style="text-align:right">提成值</th>
+                <td>{$list.deduct}</td>
+
+                <th style="text-align:right">产品规格</th>
+                <td>{$list.format}</td>
+            </tr>
+            
+            <tr>
+                <th style="text-align:right">创建人</th>
+                <td>
+                    {$list.realname} </td>
+
+                <th style="text-align:right">创建日期</th>
+                <td>{array_shift($this->t_date->get_lastdate((int)$list.create))} </td>
+
+                <th style="text-align:right">最后更新</th>
+                <td>
+                    {$list.replace_name}</td>
+
+                <th style="text-align:right">更新日期</th>
+                <td>
+                    {array_shift($this->t_date->get_lastdate((int)$list.update))} </td>
+            </tr>
+            <tr>
+            <th style="text-align:right">产品备注</th>
+                <td colspan="7">{$list.remark}</td>
+            </tr>
+        </table>
+        {if !empty($count1)}
+        <div id="legend" class="">
+            <legend class="">库存 <a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a> </legend>
+        </div>
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{$count1}</strong>个库存记录</small>
+        </p>
+        <div id="tablelist1">
+
+        </div>
+        <div class="pagination pagination-centered">
+            <ul id='pagination1'>
+
+            </ul>
+        </div>
+        {/if}
+
+        {if !empty($count2)}
+        <div id="legend" class="">
+            <legend class="">入库 <a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a> </legend>
+        </div>
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{$count1}</strong>个入库记录</small>
+        </p>
+        <div id="tablelist2">
+
+        </div>
+        <div class="pagination pagination-centered">
+            <ul id='pagination2'>
+
+            </ul>
+        </div>
+        {/if}
+        {if !empty($count3)}
+        <div id="legend" class="">
+            <legend class="">调拨 <a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a> </legend>
+        </div>
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{$count1}</strong>个调拨记录</small>
+        </p>
+        <div id="tablelist3">
+
+        </div>
+        <div class="pagination pagination-centered">
+            <ul id='pagination3'>
+
+            </ul>
+        </div>
+        {/if}
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+        $(document).ready(function() {
+        {if !empty($count1)}
+        $('#pagination1').jqPaginator({
+        totalCounts: {$count1},
+                pageSize:{$base.queqry},
+                currentPage:1,
+                onPageChange: function(num, type) {
+                $.post("{site 'inventory/product_look/'.$list.id}", {looktype:1, count:{$count1}, pagination:num}, function(data) {
+                $('#tablelist1').html(data);
+                });
+                }
+        });
+        {/if}
+        {if !empty($count2)}
+        $('#pagination2').jqPaginator({
+        totalCounts:{$count2},
+                pageSize:{$base.queqry},
+                currentPage:1,
+                onPageChange:function(num, type) {
+                $.post("{site 'inventory/product_look/'.$list.id}", {looktype:2, count:{$count2}, pagination:num}, function(data) {
+                $('#tablelist2').html(data);
+                });
+                }
+        });
+        {/if}
+        {if !empty($count3)}
+        $('#pagination3').jqPaginator({
+        totalCounts:{$count3},
+                pageSize:{$base.queqry},
+                currentPage: 1,
+                onPageChange:function(num, type) {
+                $.post("{site 'inventory/product_look/'.$list.id}", {looktype:3, count:{$count3}, pagination:num}, function(data) {
+                $('#tablelist3').html(data);
+                });
+                }
+        });
+        {/if}
+        });
+    </script>
+</body>
+</html>
+{/if}

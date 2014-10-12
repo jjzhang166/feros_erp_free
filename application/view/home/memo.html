@@ -1,0 +1,55 @@
+{view 'public/head'}
+{css 'assets/css/jquery.notebook.min.css'}
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="input-append">
+                    <input class="input-small" id="appendedInputButtons" type="text">
+                    <button class="btn" type="button"><i class="icon-search"></i></button>
+
+                </div>
+                <ul class="nav nav-list">
+                    <li class="nav-header">备忘列表</li>
+                    <li class="active"><a href="#">首页</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li><a href="#">Applications</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+
+            </div>
+            <div class="span10">
+                <p>
+                    <button class="btn" type="button"><i class="icon-save"></i></button>
+                    <button class="btn" type="button"><i class="icon-edit"></i></button>
+
+                    <button class="btn" type="button"><i class="icon-plus"></i></button>
+
+                    
+                    <button class="btn" type="button"><i class="icon-remove"></i></button>
+                </p>
+                <div class="editor">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {view 'public/js'}
+    {js 'assets/js/jquery.notebook.min.js'}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.editor').notebook({
+                autoFocus: true,
+                placeholder: '输入你的备忘录...,一个简单，干净，优雅的备忘录.用鼠标选中文字可以更多操作'
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'member/add'}" accept-charset="utf-8" method="post">
+            <div id="legend" class="">
+                <legend class="">新增会员</legend>
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th  style="line-height:30px;text-align:right">会员组：</th>
+                    <td>
+                        <select name="g_id" class="input-xlarge">
+                            <option value="">请选择分类</option>
+                            {loop $group as $var}
+                            <option value="{$var.id}">{$var.name}</option>
+                            {/loop}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="line-height:30px;text-align:right">会员姓名：<font color="#ff0000">*</font></th>
+                    <td><input type="text" name="realname" class="input-xlarge" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">会员性别：</th>
+                    <td> <label class="radio inline">
+                            <input type="radio" name="sex" value="女">
+                            女</label>
+                        <label class="radio inline">
+                            <input type="radio" name="sex" value="男" checked="checked">
+                            男</label> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">会员卡号：</th>
+                    <td><input type="text" name="card" class="input-xlarge"></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">联系电话：</th>
+                    <td><input type="text" name="tel" class="input-xlarge"></td>
+                </tr>	 
+                <tr>
+                    <th style="line-height:30px;text-align:right">QQ：</th>
+                    <td><input type="text" name="qq" class="input-xlarge"></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">Email：</th>
+                    <td><input type="email" name="email" class="input-xlarge"></td>
+                </tr> 
+                <tr>
+                    <th style="line-height:30px;text-align:right">家庭住址：</th>
+                    <td><input type="text" name="address" class="input-xlarge"></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">身份证号：</th>
+                    <td><input type="text" name="id_card" class="input-xlarge"></td>
+                </tr>
+
+                <tr>
+                    <th style="line-height:30px;text-align:right">会员生日：</th>
+                    <td>
+                        <select id="sel_year" name="year" class="input-small"></select>
+                        <select id="sel_month" name="month" class="input-mini"></select>
+                        <select id="sel_day" name="day" class="input-mini"></select>
+                    </td>
+                </tr>	 	  
+                <tr>
+                    <th style="line-height:30px;text-align:right">备注：</th>
+                    <td><textarea name="remark" type="" class="input-xlarge" style="height:60px"></textarea></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    {view 'public/js'}
+    {js 'assets/js/birthday.js'}
+    <script>
+        $(function () {
+            $.ms_DatePicker({
+                YearSelector: ".sel_year",
+                MonthSelector: ".sel_month",
+                DaySelector: ".sel_day"
+            });
+            $.ms_DatePicker();
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            post_sisyphus()
+        });
+    </script>
+</body>
+</html>

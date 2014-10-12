@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{$base.company}</title>
+        {css 'assets/bootstrap/css/bootstrap.min.css'}
+        {css 'assets/bootstrap/css/bootstrap-responsive.min.css'}
+        {css 'assets/plugin/datetimepicker/css/bootstrap-datetimepicker.min.css'}
+        {css 'assets/bootstrap/css/todc-bootstrap.css'}
+        {css 'assets/bootstrap/css/scojs.css'}
+        {css 'assets/css/toastr.min.css'}
+        {css 'assets/css/common.css'}
+        {css 'assets/css/font-awesome.min.css'}
+        <link rel="shortcut icon" href="{base 'favicon.ico'}">
+        <style>
+            body{padding-top:8%;
+                 font-size:12px;color: #666666;
+                 text-decoration: none;}
+            table th,table td {
+                text-align: left;
+                vertical-align: top;
+            }
+        </style>
+        <script type="text/javascript">
+            var closeHandler = function () {
+                ferosClient.close();
+            }
+            addEventListener("ferosClientReady", closeHandler);
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" valign="middle">
+                        <table width="646" height="425" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td colspan="3">
+                                    <img src="{base 'assets/login/images/login_01.gif'}" width="646" height="114" alt="仓库管理软件"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="{base 'assets/login/images/login_02.gif'}" width="88" height="311" alt=""></td>
+                                <td width="476" height="311" valign="top" background="{base 'assets/login/images/login_03.gif'}">
+                                    <form style="padding-top:32px" action="{site 'login/index'}" accept-charset="utf-8" method="post" name="loginform" autocapitalize="off" autocomplete="off" autocorrect="off">
+                                        <table>
+                                            <tr>
+                                                <td style="width:120px;line-height:30px;text-align:right">登录名：</td>
+                                                <td><input type="text" name="account" tabindex="1" placeholder="帐号/邮箱/手机号/员工号" class="input-large"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height:30px;text-align:right">密　码：</td>
+                                                <td><input name="password" type="password" tabindex="2" placeholder="登录密码" class="input-large"></td>
+                                            </tr>
+                                            {if !empty($base.loginqrcode)}
+                                            <tr>
+                                                <td style="line-height:30px;text-align:right">验证码：</td>
+                                                <td><input type=text name="verifycode" maxLength=6 size="6" tabindex="3" placeholder="验证码" class="input-small">
+                                                    <span><img style="padding-bottom:10px" src="{site 'login/code'}" onClick="this.src = this.src;" align="absmiddle"></span>
+                                                </td>
+                                            </tr>
+                                            {/if}
+                                            <tr>
+                                                <td style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></td><td>
+                                                    <button type="submit" class="btn btn-primary" style="width:190px"><i class="icon-save"></i> 登录</button>
+                                                    <button type="button"  title="关闭" class="btn" onclick="ferosClient.close()"><i class="icon-remove"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </table>
+                                    </form>
+
+                                <td>
+                                    <img src="{base 'assets/login/images/login_04.gif'}" width="82" height="311" alt=""></td>
+                            </tr>
+                        </table>
+                    </td></tr></table>
+        </div>
+        {js 'assets/js/jquery-1.8.1.min.js'}
+        {js 'assets/login/js/login.js'}
+        {js 'assets/bootstrap/js/sco.js'}
+        {js 'assets/js/toastr.min.js'}
+        {js 'assets/js/jquery.qrcode.min.js'}
+        {js 'assets/js/common.js'}
+
+    </body>
+</html>

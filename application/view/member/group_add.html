@@ -1,0 +1,30 @@
+<form class="form-horizontal" action="{site 'member/group_add'}" style="margin:0px" accept-charset="utf-8" method="post">
+
+    <table class="table table-hover">
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">会员分组</th>
+            <td>
+                <select name="classid" class="input-xlarge">
+                    <option value="0">一级分组</option>
+                    {loop $list as $var}
+                    <option value="{$var.id}">{$var.name}</option>
+                    {/loop}
+                </select>   
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">分组名称</th>
+            <td><input type="text" name="name" value="" class="input-xlarge" required></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">折扣</th>
+            <td><input type="text" name="discounts" value="" class="input-xlarge"></td>
+        </tr>
+
+        <tr>
+            <td style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></td>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

@@ -1,0 +1,105 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'system/staff_add'}" accept-charset="utf-8" method="post">
+            <div id="legend" class="">
+                <legend class="">新增员工</legend>
+            </div>
+
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#home" data-toggle="tab">基本资料</a></li>
+                <li><a href="#profile" data-toggle="tab">员工权限</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="home">
+                    <table class="table table-hover">
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工部门<font color="#ff0000">*</font></th>
+                            <td>
+                                <select name="c_id" class="input-xlarge" required>
+                                    <option value="">请选择部门</option>
+                                    {loop $list as $var}
+                                    <option value="{$var.id}">{$var.name}</option>
+                                    {/loop}
+                                </select>   
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工姓名<font color="#ff0000">*</font></th>
+                            <td><input type="text" name="realname" placeholder="" class="input-xlarge" required></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">登录账号<font color="#ff0000">*</font></th>
+                            <td><input type="text" name="username" placeholder="" class="input-xlarge" required></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">登录密码<font color="#ff0000">*</font></th>
+                            <td><input type="password" name="password" placeholder="" class="input-xlarge" required></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">电子邮箱</th>
+                            <td><input type="email" name="email" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">手机号码</th>
+                            <td><input type="text" name="mobile" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">基本工资</th>
+                            <td><input type="text" name="wage" value="" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">备注</th>
+                            <td><textarea name="remark" type="" class="input-xlarge" style="height:60px"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工状态</th>
+                            <td>
+                                {loop $this->m_staff->status() as $key=>$var}
+                                <label class="radio inline">
+                                    <input type="radio" value="{$key}" name="status"{$key=='1'?' checked="checked"':''}>
+                                    {$var}
+                                </label>
+                                {/loop}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+                            <td>
+                                <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="profile">
+
+                    {loop $menu as $var}
+                    <div id="legend" class="">
+                        <legend class=""><h5>{$var.name}</h5></legend>
+                    </div>
+                    {loop $var.s as $var2}
+                    <div class="control-group">
+                        <label class="control-label"><strong>{$var2.name}</strong></label>
+                        <div class="controls">
+                            {loop $var2.s as $var3}
+                            <label class="checkbox inline"><input type="checkbox" name="menu[]" value="{$var3.id}">{$var3.name}</label>
+                            {/loop}
+                        </div>
+                    </div>
+                    {/loop}
+                    {/loop}
+                </div>
+            </div>
+
+        </form>
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            post_sisyphus()
+        });
+    </script>
+</body>
+</html>

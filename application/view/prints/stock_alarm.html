@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <table width="90%" border="0" cellpadding="0" cellspacing="2" align="center">
+                <tr> 
+                    <td colspan="2" height="21" align="center"><h1>库存报警单</h1></td>
+                </tr>
+                <tr> 
+                    <td colspan="2" align="right">
+                        打印日期: {date('Y-m-d')}
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+
+                        <table width="100%" border="1" cellspacing="0" cellpadding="2" align="center" bordercolor="#000000">
+                            <tr>
+                                <th height="30">仓库</th>
+                                <th>库存</th>
+                                <th>报警</th>
+                                <th>单位</th>
+                                <th>识别码</th>
+                                <th>名称</th>
+                                <th>类型</th>
+                            </tr>
+                            {loop $list as $var}
+                            <tr>
+                                <td align="center" height="25">{$var.w_name}</td>
+                                <td align="center">{$var.quantity;$quantity+=$var.quantity}</td>
+                                <td align="center">{$var.lowest}</td>
+                                <td align="center">{$var.unit}</td>
+                                <td>{$var.code}</td>
+                                <td>{$var.name}</td>
+                                <td align="center">{$var.type==='1'?'正常':'赠品'}</td>
+                            </tr>
+                            {/loop}
+                        </table>
+                    </td>
+                </tr>
+                <tr> 
+                    <td colspan="2" align="right" height="25">
+                        合计报警:  {$quantity}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><table width="100%" border="0" cellpadding="0" cellspacing="2" align="center">
+                            <tr> 
+                                <td height="21" align="left" width="50%">
+                                    {$base.company}
+                                </td>
+                                <td align="right" width="50%">
+                                    打印: {$member.realname}
+                                </td>
+                            </tr>
+                        </table></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,92 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form id="forminventorysupplier" class="form-inline" action="{site 'statistics/warehouse'}" accept-charset="utf-8" method="get">
+            <input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="timea" value="{$_REQUEST.timea}" placeholder="创建开始日期">
+            <i class="icon-resize-horizontal"></i>
+            <input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="timeb" value="{$_REQUEST.timeb}" placeholder="创建结束日期">
+
+            <select name="warehouse" class="input-medium">
+                <option value="">所有仓库</option>
+                {loop $warehouse as $var}
+                <option value="{$var.w_id}"{$_REQUEST.warehouse===$var.w_id?' selected':''}>{$var.w_name}</option>
+                {/loop}
+            </select>
+            <button type="submit" class="btn btn-primary input-small" title="查询银行"><i class="icon-search"></i> 搜索</button>
+        </form>
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到仓库合计<strong>{$quantity}</strong>个产品</small>
+        </p>
+        <div id="main" style="height:450px;border:0px solid #ccc;padding:10px;"></div>
+
+    </div>
+    {view 'public/js'}
+    {js 'assets/echarts/esl/esl.js'}
+    {js 'assets/echarts/echarts-plain.js'}
+    <script type="text/javascript">
+                var option = {
+                title: {
+                text: '仓库统计观图',
+                        subtext: '{$_REQUEST.timea}至{$_REQUEST.timeb}'
+                },
+                        tooltip: {
+                        trigger: 'axis'
+                        },
+                        legend: {
+                        data: ['销售', '报废', '退回', '退货']
+                        },
+                        toolbox: {
+                        show: true,
+                                feature: {
+                                mark: {show: true},
+                                        dataView: {show: true, readOnly: false},
+                                        magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                                        restore: {show: true},
+                                        saveAsImage: {show: true}
+                                }
+                        },
+                        calculable: true,
+                        xAxis: [
+                        {
+                        type: 'category',
+                                boundaryGap: false, splitLine : {show : false},
+                                data: [{implode(',', $purchase.date)}]
+                        }
+                        ],
+                        yAxis: [
+                        {
+                        type: 'value'
+                        }
+                        ],
+                        series: [
+                        {
+                        name: '销售',
+                                type: 'line',
+                                smooth: true,
+                                data: [{implode(',', $sales.quantity)}]
+                        },
+                        {
+                        name: '报废',
+                                type: 'line',
+                                smooth: true,
+                                data: [{implode(',', $scrapped.obsolescence)}]
+                        },
+                        {
+                        name: '退回',
+                                type: 'line',
+                                smooth: true,
+                                data: [{implode(',', $company_returns.quantity)}]
+                        },
+                        {
+                        name: '退货',
+                                type: 'line',
+                                smooth: true,
+                                data: [{implode(',', $sales_returns.return)}]
+                        }
+                        ]
+                };
+                echarts.init(document.getElementById('main')).setOption(option);
+    </script>
+</body>
+</html>

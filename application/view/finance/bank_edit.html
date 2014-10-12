@@ -1,0 +1,32 @@
+<form class="form-horizontal" action="{site 'finance/bank_edit'}" style="margin:0px" accept-charset="utf-8" method="post">
+    <input type="hidden" name="id" value="{$var.id}" />
+    <table class="table table-hover">
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">名称</th>
+            <td>
+               <input type="text" name="bank" value="{$var.bank}" placeholder="输入银行名称" class="input-xlarge" required> </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">金额变更</th>
+            <td> <input type="text" name="money" placeholder="负数为减少，正数为增加" class="input-xlarge"></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">备注</th>
+            <td><input type="text" name="remark" value="{$var.remark}" placeholder="输入银行备注" class="input-xlarge"></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"></th>
+            <td><label class="checkbox inline">
+                    <input name="default" type="checkbox" value="1"{$var.default?' checked="checked"':''}>
+                    默认
+                </label></td>
+        </tr>
+        
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button></td>
+        </tr>
+    </table>
+    
+</form>
+<script type="text/javascript">form_post();</script>

@@ -1,0 +1,102 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+
+        <form id='inventorystorage' class="form-horizontal" action="{site 'inventory/storage'}" accept-charset="utf-8" method="post">
+            <table class="table table-hover">
+                <tr>
+                    <th style="width:200px;line-height:30px;text-align:right">产品</th>
+                    <td>
+
+                        <input type="text" name="code" placeholder="产品识别码或搜索" class="input-xlarge" id="autocomplete">
+                        <div class="input-prepend input-append">
+                            <input type="hidden" name="product" id="productid" value="" />
+                            <button type="submit" class="btn" onclick="$('#inventorystorage').attr('action', '{site 'inventory/warehousing'}'); $('#inventorystorage').attr('ajax', 'no')"><i class="icon-search"></i></button>
+                        </div>
+
+                    </td>
+                </tr>
+                {if !empty($product)}
+                {loop $product as $key=>$var}
+                <tr id="tabletbody{$key}">
+                    <td colspan="2">
+                        <table class="table table-hover table-striped" style="margin-bottom:0px">
+                            <tbody>
+                                <tr>
+                                    <th style="width:50px;line-height:30px;text-align:right">识别码</th>
+                                    <td style="width:120px;line-height:30px;">
+                                        {$var.code}
+                                    </td>
+                                    <th style="width:50px;line-height:30px;text-align:right">产品</th>
+                                    <td style="width:200px;line-height:30px;"><input type="hidden" name="product_id[]" id="productid" value="{$var.id}" />
+                                        {$var.name}
+                                    </td>
+                                    <th style="width:50px;line-height:30px;text-align:right">数量</th>
+                                    <td style="width:100px;line-height:30px;">
+                                        <div class="input-prepend input-append">
+                                            <button type="button" class="btn" onclick="$('#quantity{$key}').val((Number($('#quantity{$key}').val()) - 1)); calculatemoney({$var.sales}, 'quantity{$key}', 'discounts{$key}', 'money{$key}')"><i class="icon-minus"></i></button>
+                                            <input type="text" id="quantity{$key}" onkeyup="calculatemoney({$var.sales}, 'quantity{$key}', 'discounts{$key}', 'money{$key}')" name="product_quantity[]" value="{$_REQUEST['product_quantity'][$key]?:1}" placeholder="数量" class="input-small">
+                                            <button type="button" class="btn" onclick="$('#quantity{$key}').val(Number($('#quantity{$key}').val()) + 1); calculatemoney({$var.sales}, 'quantity{$key}', 'discounts{$key}', 'money{$key}')"><i class="icon-plus"></i></button>
+                                        </div>
+                                        
+                                    </td>
+                                    <th style="width:60px;line-height:30px;text-align:right">加入仓库<font color="#ff0000">*</font></th>
+                    <td>
+                        <select name="warehouse[]" class="input-xlarge">
+                            <option value="">请选择</option>
+                            {loop $warehouse as $var}
+                            <option value="{$var.w_id}"{$var.w_default==='1'?' selected':''}>{$var.w_name}</option>
+                            {/loop}
+                        </select><button type="button" class="btn" onclick="$('#tabletbody{$key}').empty()"><i class="icon-remove"></i></button>
+                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {/loop}
+                {/if}
+                <tr>
+                    <th style="line-height:30px;text-align:right">供应商</th>
+                    <td>
+                        <select name="supplier" class="input-xlarge">
+                            <option value="">请选择</option>
+                            {loop $supplier as $var}
+                            <option value="{$var.id}">{$var.company}</option>
+                            {/loop}
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th style="line-height:30px;text-align:right">产品备注</th>
+                    <td><textarea name="remark" type="" class="input-xlarge" style="height:60px">{$_REQUEST.remark}</textarea></td>
+                </tr>
+                <tr>
+                    <td style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary input-small" onclick="$('#inventorystorage').attr('action', '{site 'inventory/storage'}'); $('#inventorystorage').removeAttr('ajax')"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
+
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+                $(document).ready(function () {
+        $('#autocomplete').autocomplete({
+        serviceUrl: "{site 'json/product'}",
+                onSelect: function (suggestion) {
+                $('#productid').val(suggestion.id);
+                        $('#inventorystorage').attr('action', '{site 'inventory/warehousing'}');
+                        $('#inventorystorage').attr('ajax', 'no')
+                        $('#inventorystorage').submit();
+                }
+        });
+        });
+    </script>
+</body>
+</html>

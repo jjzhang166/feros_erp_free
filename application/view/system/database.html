@@ -1,0 +1,29 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+
+        <form class="form-horizontal" action="{site 'system/database'}" accept-charset="utf-8" method="post">
+            <fieldset>
+                <div id="legend" class="">
+                    <legend class="">数据库维护</legend>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></label>
+
+                    <!-- Button -->
+                    <div class="controls"><input type="hidden" name="type" id="type" value="1" />
+                        <button type="submit" onclick="$('#type').val(1)" class="btn"><i class="icon-hdd"></i> 优化数据库</button>
+                        <button type="submit" onclick="$('#type').val(0)" class="btn"><i class="icon-hdd"></i> 修复数据库</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+
+
+    </div>
+    {view 'public/js'}
+</body>
+</html>

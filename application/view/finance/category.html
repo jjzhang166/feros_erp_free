@@ -1,0 +1,74 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+
+        <form class="form-inline" action="{site 'finance/category/'}" accept-charset="utf-8" method="get">
+            <select name="type" class="input-small">
+                <option value="">全部</option>
+                <option value="1"{$_REQUEST.type==='1'?' selected':''}>收入</option>
+                <option value="0"{$_REQUEST.type==='0'?' selected':''}>支出</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary input-small" title="查询账务分类"><i class="icon-search"></i> 搜索</button>
+            <a data-trigger="modal" href="{site 'finance/category_add/1'}" data-title="新增收入" title="新增收入" class="btn"><i class="icon-plus"></i> 收入</a>
+            <a data-trigger="modal" href="{site 'finance/category_add/0'}" data-title="新增支出" title="新增支出" class="btn"><i class="icon-plus"></i> 支出</a>
+
+        </form>
+
+
+        {if empty($list)}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+            暂时没有相关数据
+        </div>
+        {else}<p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{count($list)}</strong>个数据</small>
+        </p>
+        <table class="table table-hover" id="bank_list">
+            <thead>
+                <tr>
+                    <th>分类名称</th>
+                    <th style="width:50px;text-align:center">类型</th>
+                    <th style="width:50px;text-align:center">修改</th>
+                    <th style="width:50px;text-align:center">删除</th>
+                    <th style="width:50px;text-align:center">排序</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list as $var}
+                <tr categoryid="{$var.id}">
+                    <td>{$var.name}</td>
+                    <td style="text-align:center">{$var.type?'收入':'支出'}</td>
+                    <td style="text-align:center"><a data-trigger="modal" href="{site 'finance/category_edit/'.$var.id}" data-title="修改银行" title="修改银行"><i class="icon-edit"></i> 修改</a></td>
+                    <td style="text-align:center"><a data-trigger="confirm" data-content="你确定要删除吗？删除后无法恢复" href="{site 'finance/category_delete/'.$var.id}"><i class="icon-remove"></i> 删除</a></td>
+                    <td style="text-align:center" onmouseover="onmouseoverdragsort()" onmouseout="onmouseoutdragsort()"><i class="icon-move"></i> 排序</td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {/if}
+
+
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            onmouseoutdragsort();
+        });
+        function saveOrder() {
+            var data = $("table tbody tr").map(function () {
+                return $(this).attr('categoryid');
+            }).get();
+            ajax_post("{site 'finance/category_sort'}", 'sort=' + data.join("|"));
+        }
+        function onmouseoutdragsort() {
+            $("table tbody").dragsort("destroy");
+        }
+        function onmouseoverdragsort() {
+            $("table tbody").dragsort({dragSelector: "tr", dragBetween: true, dragEnd: saveOrder});
+        }
+    </script>
+</body>
+</html>

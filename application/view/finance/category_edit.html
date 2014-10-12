@@ -1,0 +1,27 @@
+<form class="form-horizontal" action="{site 'finance/category_edit'}" style="margin:0px" accept-charset="utf-8" method="post">
+    <input type="hidden" name="type" value="{$var.type}" />
+    <input type="hidden" name="id" value="{$var.id}" />
+    
+    <table class="table table-hover">
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">目录</th>
+            <td>
+           <select name="classid" class="input-xlarge">
+                    <option value="0">一级目录</option>
+                    {loop $list as $vars}
+                    <option value="{$vars.id}"{$var.classid===$vars.id?' selected':''}>{$vars.name}</option>
+                    {/loop}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">分类名称</th>
+            <td><input type="text" name="name" value="{$var.name}" placeholder="输入分类名称" class="input-xlarge" required></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

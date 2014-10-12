@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{$base.company}</title>
+        {css 'assets/login/css/login.css'}
+        {css 'assets/bootstrap/css/scojs.css'}
+    </head>
+    <body>
+        <h1>{$base.title}</h1>
+
+        <div class="login" style="margin-top:50px;">
+
+            <div class="header">
+                <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+                    <a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">扫描登录</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+                </div>
+            </div>    
+
+
+            <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">    
+
+                <!--登录-->
+                <div class="web_login" id="web_login">
+
+
+                    <div class="login-box">
+
+
+                        <div class="login_form">
+                            <form action="{site 'login/index'}" name="loginform" id="login_form" class="loginForm" accept-charset="utf-8" method="post"><input type="hidden" name="did" value="0"/>
+                                <input type="hidden" name="to" value="log"/>
+                                <div class="uinArea" id="uinArea">
+                                    <label class="input-tips" for="u">帐号：</label>
+                                    <div class="inputOuter" id="uArea">
+
+                                        <input type="text" id="u" name="account" class="inputstyle"/>
+                                    </div>
+                                </div>
+                                <div class="pwdArea" id="pwdArea">
+                                    <label class="input-tips" for="p">密码：</label> 
+                                    <div class="inputOuter" id="pArea">
+
+                                        <input type="password" id="p" name="password" class="inputstyle"/>
+                                    </div>
+                                </div>
+
+                                <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--登录end-->
+            </div>
+
+            <!--注册-->
+            <div class="qlogin" id="qlogin" style="display: none; ">
+
+                <div class="web_login" style="text-align:center">
+                    <div id="userCue" class="cue">请使用手机或移动设备扫描登录</div>
+
+
+                    <span id="code"></span>
+
+
+
+
+
+
+
+                </div>
+
+
+            </div>
+            <!--注册end-->
+        </div>
+        <!--[if lt IE 9]>
+        <div class="jianyi">*请使用ie9或以上版本ie浏览器或Chrome内核浏览器访问本站</div>
+        <![endif]-->
+
+        {js 'assets/js/jquery-1.8.1.min.js'}
+        {js 'assets/login/js/login.js'}
+        {js 'assets/bootstrap/js/sco.js'}
+        {js 'assets/js/jquery.qrcode.min.js'}
+        {js 'assets/js/common.js'}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#code").qrcode({
+                    width: 200,
+                    height: 200,
+                    text: "{site 'login/index'}"
+                });
+            });
+        </script>
+    </body>
+</html>

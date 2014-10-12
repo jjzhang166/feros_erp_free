@@ -1,0 +1,121 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="legend" class="">
+            <legend class=""><a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a>
+                <button type="button" class="btn input-small" onclick="PrintBarCodeNoBorderTable('{site 'prints/orders/'.$var.id.'?session_id='.session_id()}','打印订单{$var.id}','128Auto',75, 60, 300, 40,'{$var.number}')" title="打印"><i class="icon-print"></i> 打印</button>
+            </legend>
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <td rowspan="2" style="width:50px;text-align:left"><span id="code"></span></td>
+                <th style="width:60px;text-align:right">订单号</th>
+                <td>{$var.number}</td>
+                <th style="width:60px;text-align:right">客户</th>
+                <td>{$var.realname?:'<span class="label label-important">没有客户</span>'}</td>
+
+                <th style="width:60px;text-align:right">创建日期</th>
+                <td>{array_shift($this->t_date->get_lastdate((int) $var.time))}</td>
+
+                <th style="width:60px;text-align:right">创建人</th>
+                <td>{$var.staff_realname}</td>
+            </tr>
+            <tr>
+
+                <th style="text-align:right">金额</th>
+                <td>{$var.amount}</td>
+
+                <th style="text-align:right">积分</th>
+                <td>{$var.points}</td>
+
+                <th style="text-align:right">产品数量</th>
+                <td>{$var.count_data}</td>
+                <th style="text-align:right">备注</th>
+                <td>{$var.remark}</td>
+            </tr>
+        </table>
+
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th colspan="6" style="text-align:center">订单信息</th>
+                    <th colspan="6" style="text-align:center">产品信息</th>
+                </tr>
+                <tr>
+                    <th>状态</th>
+                    <th>数量</th>
+                    <th>购买金额</th>
+                    <th>购买积分</th>
+                    <th>购买折扣</th>
+                    <th>出库仓库</th>
+                    <th>识别码</th>
+                    <th>产品名称</th>
+                    <th>产品单价</th>
+                    <th>产品分类</th>
+                    <th>产品类型</th>
+                    <th>产品规格</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $orders as $var}
+                {_ $var.product_data=unserialize($var.product_data);
+                $quantity+=$var.quantity;
+                $amount+=$var.amount;
+                $points+=$var.points;
+                $sales+=$var.product_data.sales;
+                }<tr>
+                    <td>{$this->m_orders_data->get_status($var.status)}</td>
+                    <td>{$var.quantity}</td>
+                    <td>{$var.amount}</td>
+                    <td>{$var.points}</td>
+                    <td>{$var.discounts}</td>
+                    <td>{$var.w_name}</td>
+                    <td>{$var.product_data.code}</td>
+                    <td>{$var.product_data.name}</td>
+                    <td>{$var.product_data.sales}</td>
+                    <td>{$var.product_data.category}</td>
+                    <td>{$var.product_data.type==='1'?'正常':'赠品'}</td>
+                    <td>{$var.product_data.format}</td>
+                </tr>
+                {/loop}
+            </tbody>
+            <thead>
+                <tr><th></th>
+                    <th>{$quantity}</th>
+                    <th>{$amount}</th>
+                    <th>{$points}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>{$sales}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>     
+
+
+        <p class="text-right">
+            <a href="{$this->t_client->reffer()}" title="返回" class="btn"><i class="icon-double-angle-left"></i> 返回</a>
+            <button type="button" class="btn input-small" title="打印"><i class="icon-print"></i> 打印</button>
+        </p>
+
+
+
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#code").qrcode({
+                width: 60,
+                height: 60,
+                text: "{$var.number}"
+            });
+        });
+    </script>
+
+</body>
+</html>

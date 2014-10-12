@@ -1,0 +1,122 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'system/staff_edit'}" accept-charset="utf-8" method="post">
+            <input type="hidden" name="uid" value="{$edit.uid}" />
+            <input type="hidden" name="url" value="{$this->t_client->reffer()}" />
+            <div id="legend" class="">
+                <legend class="">修改员工 <a href="{$this->t_client->reffer()}" title="取消" class="btn"><i class="icon-double-angle-left"></i> 取消</a></legend>
+            </div>
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#home" data-toggle="tab">基本资料</a></li>
+                <li><a href="#profile" data-toggle="tab">员工权限</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="home">
+                    <table class="table table-hover">
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工部门<font color="#ff0000">*</font></th>
+                            <td>
+                                <select name="c_id" class="input-xlarge">
+                                    <option value="">请选择部门</option>
+                                    {loop $list as $var}
+                                    <option value="{$var.id}"{$edit.c_id===$var.id?' selected':''}>{$var.name}</option>
+                                    {/loop}
+                                </select>   
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工姓名<font color="#ff0000">*</font></th>
+                            <td><input type="text" name="realname" value="{$edit.realname}" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">登录账号<font color="#ff0000">*</font></th>
+                            <td><input type="text" name="username" value="{$edit.username}" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">登录密码</th>
+                            <td><input type="password" name="password" placeholder="不修改请留空" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">电子邮箱</th>
+                            <td><input type="text" name="email" value="{$edit.email}" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">手机号码</th>
+                            <td><input type="text" name="mobile" value="{$edit.mobile}" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">基本工资</th>
+                            <td><input type="text" name="wage" value="{$edit.wage}" placeholder="" class="input-xlarge"></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">备注</th>
+                            <td><textarea name="remark" type="" class="input-xlarge" style="height:60px">{$edit.remark}</textarea></td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right">员工状态</th>
+                            <td>
+                                {loop $this->m_staff->status() as $key=>$var}
+                                <label class="radio inline">
+                                    <input type="radio" value="{$key}" name="status"{$edit.status==$key?' checked="checked"':''}>
+                                    {$var}
+                                </label>
+                                {/loop}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+                            <td>
+                                <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button> 
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="profile">
+
+                    {loop $menu as $var}
+                    <div id="legend" class="">
+                        <legend class=""><h5>{$var.name}</h5></legend>
+                    </div>
+                    {loop $var.s as $var2}
+                    <div class="control-group" id='checkbox{$var2.id}'>
+                        <label class="control-label"><strong>{$var2.name}</strong>
+
+
+                            <input type="checkbox" onclick='$("#checkbox{$var2.id} :checkbox").each(function () {
+                                        $(this).attr("checked", !$(this).attr("checked"));
+                                    });'>
+
+
+                        </label>
+                        <div class="controls">
+                            {loop $var2.s as $var3}
+                            <label class="checkbox inline"><input type="checkbox" name="menu[]" value="{$var3.id}"{in_array($var3.id, $staff_menu)?' checked':''}>{$var3.name}</label>
+                            {/loop}
+                        </div>
+                    </div>
+                    {/loop}
+                    {/loop}
+                    <div class="control-group">
+                        <label class="control-label"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></label>
+
+                        <!-- Button -->
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    {view 'public/js'} <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+
+        <form class="form-horizontal" action="{site 'system/database_cache'}" accept-charset="utf-8" method="post">
+            <fieldset>
+                <div id="legend" class="">
+                    <legend class="">缓存管理</legend>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></label>
+
+                    <!-- Button -->
+                    <div class="controls">
+                        <button type="submit" class="btn"><i class="icon-inbox"></i> 清空数据缓存</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+
+
+    </div>
+    {view 'public/js'}
+</body>
+</html>

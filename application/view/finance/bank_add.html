@@ -1,0 +1,31 @@
+<form class="form-horizontal" action="{site 'finance/bank_add'}" style="margin:0px" accept-charset="utf-8" method="post">
+    
+    <table class="table table-hover">
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">名称</th>
+            <td>
+               <input type="text" name="bank" value="" class="input-xlarge" required> </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">金额</th>
+            <td><input type="text" name="money" class="input-xlarge"></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">备注</th>
+            <td><input type="text" name="remark" value="" class="input-xlarge"></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"></th>
+            <td><label class="checkbox inline">
+                    <input name="default" type="checkbox" value="1">
+                    默认
+                </label></td>
+        </tr>
+        
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

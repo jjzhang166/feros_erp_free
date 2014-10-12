@@ -1,0 +1,16 @@
+<span id="element_id"> 
+        <select class="country cxselect" data-first-title="选择国家" data-value="1" disabled="disabled"></select>
+						<select class="state cxselect" disabled="disabled"></select>
+						<select class="city cxselect" disabled="disabled"></select>
+						<select class="region cxselect" disabled="disabled"></select>
+    </span>
+<script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#element_id').cxSelect({
+               selects: ['country', 'state', 'city', 'region'],
+                nodata: 'none',
+                url: "{site 'json/city'}"
+            });
+        });
+    </script> 

@@ -1,0 +1,61 @@
+{if !empty($close)}
+<script type="text/javascript">
+    var closeHandler = function () {
+        ferosClient.close();
+    }
+    addEventListener("ferosClientReady", closeHandler);
+</script>
+{else}
+{view 'public/head'}
+{if !empty($url)}
+<script type="text/javascript">
+    function Jump() {
+        window.location.href = '{$url}';
+    }
+    document.onload = setTimeout("Jump()", {$time} * 1000);
+
+</script>
+{/if}
+</head>
+<body>
+    <div class="container-fluid">
+        {if $status===1}
+        <div class="Prompt">
+            <div class="Prompt_top"></div>
+            <div class="Prompt_con">
+                <dl>
+                    <dt>提示信息</dt>
+                    <dd><span class="Prompt_ok"></span></dd>
+                    <dd>
+                        <h2>{$message}</h2>{if !empty($url)}
+                        <p>系统将在 <span style="color:blue;font-weight:bold">{$time}</span> 秒后自动关闭，如果不想等待,直接点击 <A HREF="{$url}">这里</A> 关闭</p>
+                        {/if}
+                    </dd>
+                </dl>
+                <div class="c"></div>
+            </div>
+            <div class="Prompt_btm"></div>
+        </div>
+        {else}
+        <div class="Prompt">
+            <div class="Prompt_top"></div>
+            <div class="Prompt_con">
+                <dl>
+                    <dt>提示信息</dt>
+                    <dd><span class="Prompt_x"></span></dd>
+                    <dd>
+                        <h2 style="color:red">{$message}</h2>{if !empty($url)}
+                        <p>系统将在 <span style="color:blue;font-weight:bold">{$time}</span> 秒后自动关闭，如果不想等待,直接点击 <A HREF="{$url}">这里</A> 关闭</p>
+                        {/if}
+                </dl>
+                <div class="c"></div>
+            </div>
+            <div class="Prompt_btm"></div>
+        </div>
+        {/if}
+    </div>
+    {view 'public/js'}
+
+</body>
+</html>
+{/if}

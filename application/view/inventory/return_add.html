@@ -1,0 +1,56 @@
+
+<form id='inventorystorage' class="form-horizontal"  style="margin:0px" action="{site 'inventory/return_add/'.$id}" accept-charset="utf-8" method="post">
+    <input type="hidden" name="url" value="{$this->t_client->reffer()}" /> <table class="table table-hover">
+        <tr>
+            <th style="width:130px;text-align:right">产品识别码</th>
+            <td colspan="5">{$list.code}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right">产品名称</th>
+            <td colspan="5">{$list.name}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right">拨出仓库</th>
+            <td colspan="5">{$list.w_name}</td>
+        </tr>
+
+        <tr>
+            <th style="text-align:right">入库数量</th>
+            <td>{$list.number}</td>
+
+            <th style="text-align:right">退回数量</th>
+            <td>{$list.return}</td>
+
+            <th style="text-align:right">仓库库存</th>
+            <td>{$list.quantity}</td>
+        </tr>
+
+
+        <tr>
+            <th style="line-height:30px;text-align:right">退回数量</th>
+            <td colspan="5">
+                <div class="input-prepend input-append">
+                    <button type="button" class="btn" onclick="$('#quantitynumber').val((Number($('#quantitynumber').val()) - 1) < 1 ? 1 : (Number($('#quantitynumber').val()) - 1))"><i class="icon-minus"></i></button>
+                    <input type="text" id="quantitynumber"  name="quantity" value="1" placeholder="数量" class="input-small">
+                    <button type="button" class="btn" onclick="$('#quantitynumber').val((Number($('#quantitynumber').val()) + 1) > {$return} ? $('#quantitynumber').val() : (Number($('#quantitynumber').val()) + 1))"><i class="icon-plus"></i></button>
+                </div>
+
+
+
+                <p class="help-block">可退货数量为:{$return}</p>
+            </td>
+        </tr>
+        <tr>
+            <th style="line-height:30px;text-align:right">备注</th>
+            <td colspan="5"><textarea name="remark" type="" class="input-xlarge" style="height:50px"></textarea></td>
+        </tr>
+        <tr>
+            <th style="text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td colspan="5">
+                <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 退回</button>
+                <button type="reset" class="btn input"><i class="icon-refresh"></i> 重置</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

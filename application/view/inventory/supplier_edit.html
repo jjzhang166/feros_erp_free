@@ -1,0 +1,76 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'inventory/supplier_edit'}" style="margin:0px" accept-charset="utf-8" method="post">
+            <input type="hidden" name="id" value="{$var.id}" />
+             <input type="hidden" name="url" value="{$this->t_client->reffer()}" />
+            <div id="legend" class="">
+                <legend class="">修改供应商</legend>
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th style="line-height:30px;text-align:right">供应商名称<font color="#ff0000">*</font></th>
+                    <td>
+                        <input type="text" name="company" value="{$var.company}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">联系人</th>
+                    <td>
+                        <input type="text" name="name" value="{$var.name}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">电话</th>
+                    <td>
+                        <input type="text" name="tel" value="{$var.tel}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">传真</th>
+                    <td>
+                        <input type="text" name="fax" value="{$var.fax}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">手机</th>
+                    <td>
+                        <input type="text" name="shouji" value="{$var.shouji}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">网址</th>
+                    <td>
+                        <input type="text" name="site" value="{$var.site}" class="input-xlarge"> </td>
+                </tr>
+                <tr><th style="line-height:30px;text-align:right">邮箱</th>
+                    <td>
+                        <input type="text" name="email" value="{$var.email}" class="input-xlarge"> </td>
+                </tr>
+                <tr><th style="line-height:30px;text-align:right">邮编</th>
+                    <td>
+                        <input type="text" name="pc" value="{$var.pc}" class="input-xlarge"> </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">地址</th>
+                    <td>
+                        <input type="text" name="address" value="{$var.address}" class="input-xlarge"> </td>
+                </tr>
+
+                <tr>
+                    <th style="line-height:30px;text-align:right">备注</th>
+                    <td>
+                        <input type="text" name="beizhu" value="{$var.beizhu}" class="input-xlarge"> </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></td>
+                    <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                        <a href="{$this->t_client->reffer()}" title="取消" class="btn"><i class="icon-double-angle-left"></i> 取消</a></td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+    {view 'public/js'}
+</body>
+</html>

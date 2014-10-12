@@ -1,0 +1,213 @@
+{if $this->t_verify->is_post() && $this->t_verify->is_ajax()}
+{if empty($list)}
+<div class="alert alert-block">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Warning!</h4>
+    暂时没有相关数据
+</div>
+{else}
+
+<table class="table table-hover table-striped">
+    <thead>
+
+        <tr>
+            <th>ID</th>
+            <th>创建日期</th>
+            <th>操作人</th>
+            <th>仓库</th>
+            <th>数量</th>
+
+            <th>识别码</th>
+            <th>产品名称</th>
+            <th>产品分类</th>
+            <th>产品类型</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        {loop $list as $var}
+        <tr>
+            <td>{sprintf("%06d",$var.id)}</td>
+            <td>{array_shift($this->t_date->get_lastdate((int) $var.create))}</td>
+            <td>{$var.realname}</td>
+            <td>{$var.w_name}</td>
+            <td>{$var.quantity}</td>
+
+            <td>{$var.code}</td>
+            <td>{$var.name}</td>
+            <td>{$var.category}</td>
+            <td>{$var.type==='1'?'正常':'赠品'}</td>
+            <td title="{$var.remark}">{$this->t_string->msubstr($var.remark,0,5)}</td>
+
+        </tr>
+        {/loop}
+
+    </tbody>
+</table>
+
+
+
+{/if}
+{else}
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form id="forminventorysupplier" class="form-inline" action="{site 'statistics/scrapped/'.$py}" accept-charset="utf-8" method="get">
+            <table class="table table-hover">
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <input type="text" placeholder="识别码/产品名称" name="keyword" value="{$_REQUEST.keyword}" class="input-medium">
+
+                            <input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="timea" value="{$_REQUEST.timea}" placeholder="创建开始日期">
+                            <i class="icon-resize-horizontal"></i>
+                            <input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="timeb" value="{$_REQUEST.timeb}" placeholder="创建结束日期">
+
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                <button type="button" onclick="$('#chartinput').val(0); $('form').submit()" class="btn{empty($chart)?' active':''}"><i class="icon-bar-chart"></i> 宏观图</button>
+                                <button type="button" onclick="$('#chartinput').val(1); $('form').submit()" class="btn{$chart==='1'?' active':''}"><i class="icon-table"></i> 表格</button>
+                            </div>
+                            <input type="hidden" id="chartinput" name="chart" value="{$chart}" />
+                            <button type="submit" class="btn btn-primary input-small" title="查询"><i class="icon-search"></i> 搜索</button>
+                            <button class="btn" type="button" onclick="$('#more_search').fadeToggle(); $('#financequerysearch').val($('#financequerysearch').val() == 1?0:1)"><i class="icon-rss"></i> 更多搜索</button>
+
+                            
+
+                            <input type="hidden" id="paginationinput" name="pagination" value="1" />
+                            <input type="hidden" id="countinput" name="count" value="{$count}" />
+                        </td>
+                    </tr>
+                    <tr id="more_search"{$_REQUEST.financequerysearch?'':' style="display:none"'}>
+                        <td>
+                            <input type="hidden" name="financequerysearch" id="financequerysearch" value="{$_REQUEST.financequerysearch?:0}" />
+                            <select name="warehouse" class="input-medium">
+                                <option value="">所有仓库</option>
+                                {loop $warehouse as $var}
+                                <option value="{$var.w_id}"{$_REQUEST.warehouse===$var.w_id?' selected':''}>{$var.w_name}</option>
+                                {/loop}
+                            </select>
+
+                            <select name="c_id" class="input-xlarge">
+                                <option value="">所有分类</option>
+                                {loop $category as $var}
+                                <option value="{$var.id}"{$_REQUEST.c_id===$var.id?' selected':''}>{$var.name}</option>
+                                {/loop}
+                            </select>
+                            <select name="type" class="input-small">
+                                <option value="">类型</option>
+                                <option value="1"{$_REQUEST.type==='1'?' selected':''}>正常</option>
+                                <option value="2"{$_REQUEST.type==='2'?' selected':''}>赠品</option>
+                            </select>
+                            <select name="staff_uid" class="input-small">
+                                <option value="">操作人</option>
+                                {loop $this->m_staff->finds() as $staff}
+                                <option value="{$staff.uid}"{$_REQUEST.staff_uid===$staff.uid?' selected':''}>{$staff.realname}</option>
+                                {/loop}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        {if empty($chart)}
+        <p>
+            <small><i class="icon-info-sign"></i> 合计报废:<strong>{array_sum($list.obsolescence)}</strong>个</small>
+        </p>
+        <div id="main" style="height:450px;border:0px solid #ccc;padding:10px;"></div>
+
+        {else}
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{$count}</strong>个报废记录,合计报废:<strong>{$sum}</strong>个</small>
+        </p>
+        <div id="tablelist">
+
+        </div>
+        <div class="pagination pagination-centered">
+            <ul id='pagination'>
+
+            </ul>
+        </div>
+        {/if}
+
+    </div>
+    {view 'public/js'}
+    {if empty($chart)}
+    {js 'assets/echarts/esl/esl.js'}
+    {js 'assets/echarts/echarts-plain.js'}
+    <script type="text/javascript">
+                option = {
+                title : {
+                text: '报废统计宏观图',
+                        subtext: '{$_REQUEST.timea}至{$_REQUEST.timeb}'
+                },
+                        tooltip : {
+                        trigger: 'axis'
+                        },
+                        legend: {
+                        data:['报废']
+                        },
+                        toolbox: {
+                        show : true,
+                                feature : {
+                                mark : {show: true},
+                                        dataView : {show: true, readOnly: false},
+                                        magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                                        restore : {show: true},
+                                        saveAsImage : {show: true}
+                                }
+                        },
+                        calculable : true,
+                        xAxis : [
+                        {
+                        type : 'category',
+                                boundaryGap : false,splitLine : {show : false},
+                                data : [{implode(',', $list.date)}]
+                        }
+                        ],
+                        yAxis : [
+                        {
+                        type : 'value'
+                        }
+                        ],
+                        series : [
+                        {
+                        name:'报废',
+                                type:'line',
+                                smooth:true,
+                                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                                data:[{implode(',', $list.obsolescence)}],
+            markLine : {
+                data : [
+                    {type : 'average', name : '平均值'}
+                ]
+            }
+                        }
+                        ]
+                        };
+                echarts.init(document.getElementById('main')).setOption(option);    </script>
+
+    {else}
+    <script type="text/javascript">
+                $(document).ready(function() {
+        {if !empty($count)}
+        $('#pagination').jqPaginator({
+        totalCounts: {$count},
+                pageSize:{$base.queqry},
+                currentPage: 1,
+                onPageChange: function(num, type) {
+                $('#paginationinput').val(num);
+                        $.post($('#forminventorysupplier').attr('action'), $('#forminventorysupplier').serialize(), function(data) {
+                        $('#tablelist').html(data);
+                        });
+                }
+        });
+        {/if}
+
+        });
+    </script>
+    {/if}
+</body>
+</html>
+{/if}

@@ -1,0 +1,72 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        
+        <form id="forminventorysupplier" class="form-inline" action="{site 'inventory/stock_alarm/'.$py}" accept-charset="utf-8" method="get">
+            <select name="type" class="input-small">
+                <option value="">类型</option>
+                <option value="1"{$_REQUEST.type==='1'?' selected':''}>正常</option>
+                <option value="2"{$_REQUEST.type==='2'?' selected':''}>赠品</option>
+            </select>
+            <select name="warehouse" class="input-medium">
+                <option value="">所有仓库</option>
+                {loop $warehouse as $var}
+                <option value="{$var.w_id}"{$_REQUEST.warehouse===$var.w_id?' selected':''}>{$var.w_name}</option>
+                {/loop}
+            </select>
+            <button type="submit" class="btn btn-primary input-small" title="查询"><i class="icon-search"></i> 搜索</button>
+
+            <button type="button" class="btn" title="打印" onclick="PrintNoBorderTable('{site 'prints/stock_alarm/'.'?session_id='.session_id()}&'+$('form').serialize(),'打印退货订单')"><i class="icon-print"></i> 打印查询结果</button>
+
+
+        </form>
+        {if empty($list)}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+            暂时没有相关数据
+        </div>
+        {else}
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{count($list)}</strong>个库存报警记录</small>
+        </p>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>仓库</th>
+                    <th>库存</th>
+                    <th>报警</th>
+                    <th>单位</th>
+                    <th>识别码</th>
+                    <th>产品名称</th>
+                    <th>产品分类</th>
+                    <th>产品类型</th>
+                    <th style="width:50px;text-align:center">查看</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list as $var}
+                <tr>
+                    <td>{$var.w_name}</td>
+                    <td>{$var.quantity}</td>
+                    <td>{$var.lowest}</td>
+                    <td>{$var.unit}</td>
+                    <td>{$var.code}</td>
+                    <td>{$var.name}</td>
+                    <td>{$var.category}</td>
+                    <td>{$var.type==='1'?'正常':'赠品'}</td>
+                    <td style="text-align:center"><a href="{site 'inventory/product_look/'.$var.id}" title="查看产品"><i class="icon-search"></i> 查看</a></td>
+                </tr>
+                {/loop}
+
+            </tbody>
+        </table>
+
+
+
+        {/if}
+    </div>
+    {view 'public/js'}
+</body>
+</html>

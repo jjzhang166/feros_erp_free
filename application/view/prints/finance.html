@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <table width="90%" border="0" cellpadding="0" cellspacing="2" align="center">
+                <tr> 
+                    <td colspan="2" height="21" align="center"><h1>财务单</h1></td>
+                </tr>
+                <tr> 
+                    <td colspan="2" align="right">
+                        打印日期: {date('Y-m-d')}
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+
+                        <table width="100%" border="1" cellspacing="0" cellpadding="2" align="center" bordercolor="#000000">
+                            <tr>
+                                <th height="30">#</th>
+                                <th>类型</th>
+                                <th>金额</th>
+                                <th>分类</th>
+                                <th>银行</th>
+
+                                <th>状态</th>
+                                <th>经办人</th>
+                                <th>创建人</th>
+                                <th>经办日期</th>
+                                <th>创建日期</th>
+                                <th>备注</th>
+                            </tr>
+                            {_ $i=0}
+                            {loop $list as $var}
+                            <tr>
+                                <td align="center">{++$i}</td>
+                                <td align="center" height="25">{$var.type?'收入':'支出'}</td>
+                                <td align="center">{$var.type?'+':'-'}{$var.money}
+                                    {_
+                                    $var.type?$Revenue+=$var.money:$Expenditure+=$var.money;
+
+
+                                    }
+
+                                </td>
+                                <td>{$var.c_name}</td>
+                                <td>{$var.bank}</td>
+                                <td align="center">{$var.status?'正常':'撤销'}</td>
+                                <td align="center">{$var.realname_attn}</td>
+                                <td align="center">{$var.realname}</td>
+                                <td align="center">{date('Y-m-d',$var.datetime)}</td>
+                                <td align="center">{date('Y-m-d',$var.create)}</td>
+                                <td>{$var.remark}</td>
+                            </tr>
+                            {/loop}
+                            <tr>
+                                <td colspan="11" align="right">&nbsp;&nbsp;合计支出：{$Expenditure}, 合计收入：{$Revenue}&nbsp;&nbsp;
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><table width="100%" border="0" cellpadding="0" cellspacing="2" align="center">
+                            <tr> 
+                                <td height="21" align="left" width="50%">
+                                    {$base.company}
+                                </td>
+                                <td align="right" width="50%">
+                                    打印: {$member.realname}
+                                </td>
+                            </tr>
+                        </table></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

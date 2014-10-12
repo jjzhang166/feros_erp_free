@@ -1,0 +1,133 @@
+
+<form class="form-horizontal" action="{site 'home/calendar_edit'}" style="margin:0px" accept-charset="utf-8" method="post">
+    <input type="hidden" name="id" value="{$list.id}" />
+    <input type="hidden" name="remove" id="calendar_remove" value="0" />
+    <table class="table table-hover">
+
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">日程内容</th>
+            <td><input type="text" name="event" value="{$list.title}" class="input-xlarge" placeholder="记录你将要做的一件事..." required></td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"></th>
+            <td>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" onclick="$('#calendar_color').val('')" class="btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" onclick="$('#calendar_color').val('#3079ed')" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" onclick="$('#calendar_color').val('#31b0d5')" class="btn btn-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" onclick="$('#calendar_color').val('#2e863e')" class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" onclick="$('#calendar_color').val('#f9980f')" class="btn btn-warning">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" onclick="$('#calendar_color').val('#c6322a')" class="btn btn-danger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                </div>
+                <input type="hidden" name="color" id="calendar_color" value="" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">开始时间</th>
+            <td><input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="startdate" value="{date('Y-m-d',$list.starttime)}" placeholder="开始日期">
+                <span id="sel_start" class="sel_time"{$list.allday?' style="display:none"':''}><select name="s_hour" class="input-mini">
+                        <option value="{date('h',$list.starttime)}" selected>{date('h',$list.starttime)}</option>
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                    <select name="s_minute" class="input-mini">
+                        <option value="{date('i',$list.starttime)}" selected>{date('i',$list.starttime)}</option>
+                        <option value="00">00</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </span>
+            </td>
+        </tr>
+        <tr{empty($list.endtime)?' style="display:none"':''} id='end_wdatePicker'>
+            <th style="width:130px;line-height:30px;text-align:right">结束时间</th>
+            <td><input size="16" type="text" class="form_datetime input-small" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})" name="enddate" value="{$list.endtime?date('Y-m-d',$list.endtime):''}" placeholder="结束时间">
+                <span id="sel_end" class="sel_time"{$list.allday?' style="display:none"':''}><select name="e_hour" class="input-mini">
+                        <option value="{date('h',$list.endtime)}" selected>{date('h',$list.endtime)}</option>
+                        <option value="00">00</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                    <select name="e_minute" class="input-mini">
+                        <option value="{date('i',$list.endtime)}" selected>{date('i',$list.endtime)}</option>
+                        <option value="00">00</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </span>
+
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"></th>
+            <td>
+                <label class="checkbox inline">
+                    <input type="checkbox" value="1" id="isallday" name="isallday" onclick="$('.sel_time').fadeToggle()"{$list.allday?' checked':''}> 全天
+                </label>
+                <label class="checkbox inline">
+                    <input type="checkbox" value="1" id="isend" name="isend" onclick="$('#end_wdatePicker').fadeToggle()"{!empty($list.endtime)?' checked':''}> 结束时间
+                </label>
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button>
+            
+                <button type="submit" class="btn btn-warning input-small" onclick="$('#calendar_remove').val('1')"><i class="icon-remove"></i> 删除</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

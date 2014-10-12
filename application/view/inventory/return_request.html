@@ -1,0 +1,54 @@
+<form class="form-horizontal" action="{site 'inventory/return_request/'.$list.id}" style="margin:0px" accept-charset="utf-8" method="post">
+    <input type="hidden" name="url" value="{$this->t_client->reffer()}" />
+    <table class="table table-hover">
+        <tr>
+            <th style="width:130px;text-align:right">产品识别码</th>
+            <td>{$list.product_data.code}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right">产品名称</th>
+            <td>{$list.product_data.name}</td>
+        </tr>
+        <tr>
+            <th style="line-height:30px;text-align:right">退入仓库</th>
+            <td>
+                <select name="warehouse" class="input-xlarge">
+                    <option value="">所有仓库</option>
+                    {loop $warehouse as $var}
+                    <option value="{$var.w_id}"{$list.warehouse===$var.w_id?' selected':''}>{$var.w_name}</option>
+                    {/loop}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right">退货数量</th>
+            <td>
+                <div class="input-prepend input-append">
+                                            <button type="button" class="btn" onclick="$('#quantityquantity').val((Number($('#quantityquantity').val()) - 1)<1?1:(Number($('#quantityquantity').val()) - 1))"><i class="icon-minus"></i></button>
+                                            <input type="text" id="quantityquantity"  name="quantity" value="1" placeholder="数量" class="input-small">
+                                            <button type="button" class="btn" onclick="$('#quantityquantity').val((Number($('#quantityquantity').val()) + 1) > {$list.quantity-$list.return} ? $('#quantityquantity').val() : (Number($('#quantityquantity').val()) + 1))"><i class="icon-plus"></i></button>
+                                        </div>
+                
+                <p class="help-block">可退货数量为:{$list.quantity-$list.return}</p>
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"></th>
+            <td> <label class="checkbox inline">
+                    <input type="checkbox" name="points" value="1" checked="checked">
+                    积分退回或扣除
+                </label></td>
+        </tr>
+        <tr>
+            <th style="line-height:30px;text-align:right">备注</th>
+            <td><textarea name="remark" type="" class="input-xlarge" style="height:50px"></textarea></td>
+        </tr>
+
+
+        <tr>
+            <th style="width:130px;line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+            <td><button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">form_post();</script>

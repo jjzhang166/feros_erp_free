@@ -1,0 +1,9 @@
+[BASE]
+url=index.html
+name=“Ù¿÷–¿…Õ
+width=0
+height=0
+enableDrag=1
+disableRefresh=1
+disableDevelop=1
+disableTransparent=0

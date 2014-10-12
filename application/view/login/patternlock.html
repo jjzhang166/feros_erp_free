@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{$base.company}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {css 'assets/css/toastr.min.css'}
+        {css 'assets/css/patternLock.css'}
+        <style>*{color:#fff}body{padding-top:12px;font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+        </style>
+    </head>
+    <body style="background-color: #3382c0;">
+        <table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+            <tr>
+                <td>
+                    <table width="320" height="320" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td> <div id="patternContainer"></div></td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+            <tr>
+                <td align="center">
+                    请绘制手势解锁
+                    或<a href="{site 'login/quit'}" onclick="return confirm('你确定要退出系统吗？')" title="退出系统" class="dl-log-quit">[退出]</a>
+                </td>
+
+            </tr>
+        </table>
+
+
+
+
+
+
+
+        {js 'assets/js/jquery-1.8.1.min.js'}
+        {js 'assets/bootstrap/js/bootstrap.min.js'}
+        {js 'assets/js/toastr.min.js'}
+        {js 'assets/js/patternLock.js'}
+        {js 'assets/js/common.js'}
+        <script type="text/javascript">
+
+
+            $(document).ready(function () {
+                var lock = new PatternLock("#patternContainer", {
+                    mapper: function (idx) {
+                        return (idx % 9);
+                    }, onDraw: function (pattern) {
+                        $.post("{site 'login/lock'}", {pattern: pattern}, function (data) {
+                            if (data.status === 1) {
+
+                                if (data.url !== '') {
+                                    url = data.url;
+                                } else {
+                                    url = location.href;
+                                }
+                                self.location = url
+                            }
+                            else
+                            if (data.status === 0) {
+                                 window.parent.toastr.error(data.message, '操作失败');
+                            }
+                        }, "json");
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>

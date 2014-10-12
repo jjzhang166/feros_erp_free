@@ -1,0 +1,146 @@
+{if $this->t_verify->is_post() && $this->t_verify->is_ajax()}
+{if empty($list)}
+<div class="alert alert-block">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>Warning!</h4>
+    暂时没有相关数据
+</div>
+{else}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+
+            <th>会员姓名</th>
+
+            <th>性别</th>
+            <th>会员卡号</th>
+            <th>联系电话</th>
+            <th>QQ</th>
+            <th>会员分类</th>
+            <th>会员折扣</th>
+            <th>会员积分</th>
+            <th>会员生日</th>
+            <th>创建人</th>
+            <th>创建日期</th>
+            <th style="width:50px;text-align:center">删除</th>
+            <th style="width:50px;text-align:center">修改</th>
+            <th style="width:50px;text-align:center">查看</th>
+        </tr>
+    </thead>
+    <tbody>
+        {loop $list as $var}
+        <tr>
+            <td>{$var.realname}</td>
+            <td>{$var.sex}</td>
+            <td>{$var.card}</td>
+            <td>{$var.tel}</td>
+            <td>{$var.qq}</td>
+            <td>{$var.category}</td>
+            <td>{$var.discounts}</td>
+            <td>{$var.points}</td>
+            <td>{$var.birthday!=='0000-00-00'?$var.birthday:''}</td>
+            <td>{$var.s_realname}</td>
+            <td>{array_shift($this->t_date->get_lastdate((int)$var.time))}</td>
+            <td style="text-align:center"><a data-trigger="confirm" data-content="你确定要删除吗？删除后无法恢复" href="{site 'member/index_delete/'.$var.id}"><i class="icon-remove"></i> 删除</a></td>
+            <td style="text-align:center"><a href="{site 'member/index_edit/'.$var.id}"  title="修改供会员"><i class="icon-edit"></i> 修改</a></td>
+            <td style="text-align:center"><a href="{site 'member/index_look/'.$var.id}" title="查看供会员"><i class="icon-search"></i> 查看</a></td>
+        </tr>
+        {/loop}
+    </tbody>
+</table>
+{/if}
+{else}{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li>姓名首字母检索 <span class="divider">/</span></li>
+            {loop $pinyin as $var}
+            <li{$py===$var?' class="active"':''}>{if $py===$var}{$var}{else}<a href="{site 'member/index/'.$var}">{$var}</a>{/if}<span class="divider">/</span></li>
+            {/loop}
+            <li{empty($py)?' class="active"':''}>{if empty($py)}全部{else}<a href="{site 'member/index'}">全部</a>{/if}</li>
+        </ul>
+
+        <form id="forminventorysupplier" class="form-inline" action="{site 'member/index/'.$py}" accept-charset="utf-8" method="get">
+            <table class="table table-hover">
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <select name="g_id" class="input-medium">
+                                <option value="">会员分组</option>
+                                {loop $group as $var}
+                                <option value="{$var.id}"{$_REQUEST.g_id===$var.id?' selected':''}>{$var.name}</option>
+                                {/loop}
+                            </select>
+                            <input type="text" placeholder="会员姓名" name="realname" value="{$_REQUEST.realname}" class="input-small">
+                            <input type="text" placeholder="会员卡号" name="card" value="{$_REQUEST.card}" class="input-small">
+                            <input type="text" placeholder="联系电话" name="tel" value="{$_REQUEST.tel}" class="input-small">
+                            <input type="text" placeholder="QQ" name="qq" value="{$_REQUEST.qq}" class="input-small">
+                            <input class="input-small" name="birthday" type="text" value="{$_REQUEST.birthday}" placeholder="会员生日" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd'})">
+
+                            <button type="submit" class="btn btn-primary input-small" title="查询会员"><i class="icon-search"></i> 搜索</button>
+                            <input type="hidden" id="paginationinput" name="pagination" value="1" />
+                            <input type="hidden" id="countinput" name="count" value="{$count}" />
+                            <button class="btn" type="button" onclick="$('#more_search').fadeToggle(); $('#financequerysearch').val($('#financequerysearch').val() == 1?0:1)"><i class="icon-rss"></i> 更多搜索</button>
+                        </td>
+                    </tr>
+                    <tr id="more_search"{$_REQUEST.financequerysearch?'':' style="display:none"'}>
+                        <td>
+                            <input type="hidden" name="financequerysearch" id="financequerysearch" value="{$_REQUEST.financequerysearch?:0}" />
+                            <input type="text" name="id_card" value="{$_REQUEST.id_card}" placeholder="身份证号" class="input-small">
+                            <input type="text" name="email" value="{$_REQUEST.email}" placeholder="Email" class="input-small">
+                            <input type="text" name="address" value="{$_REQUEST.address}" placeholder="家庭住址" class="input-small">
+                            <input type="text" name="remark" value="{$_REQUEST.remark}" placeholder="备注" class="input-small">
+
+                            <input type="text" class="input-small" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="timea" value="{$_REQUEST.timea}" placeholder="创建开始日期">
+                            <i class="icon-resize-horizontal"></i>
+                            <input type="text" class="input-small" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="timeb" value="{$_REQUEST.timeb}" placeholder="创建结束日期">
+
+                            <select name="staff_uid" class="input-small">
+                                <option value="">创建人</option>
+                                {loop $this->m_staff->finds() as $staff}
+                                <option value="{$staff.uid}"{$_REQUEST.staff_uid===$staff.uid?' selected':''}>{$staff.realname}</option>
+                                {/loop}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </form>
+
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{$count}</strong>个会员</small>
+        </p>
+        <div id="tablelist">
+
+        </div>
+        <div class="pagination pagination-centered">
+            <ul id='pagination'>
+
+            </ul>
+        </div>
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+                $(document).ready(function() {
+        {if !empty($count)}
+        $('#pagination').jqPaginator({
+        totalCounts: {$count},
+                pageSize:{$base.queqry},
+                currentPage: 1,
+                onPageChange: function(num, type) {
+                $('#paginationinput').val(num);
+                        $.post($('#forminventorysupplier').attr('action'), $('#forminventorysupplier').serialize(), function(data) {
+                        $('#tablelist').html(data);
+                        });
+                }
+        });
+        {/if}
+
+        });
+    </script>
+</body>
+</html>
+{/if}

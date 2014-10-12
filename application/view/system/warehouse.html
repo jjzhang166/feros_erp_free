@@ -1,0 +1,68 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-inline" action="{site 'system/warehouse/'.$py}" accept-charset="utf-8" method="get">
+            <a href="{site 'system/warehouse_add'}" title="新增仓库" class="btn"><i class="icon-plus"></i> 新增仓库</a>
+
+        </form>
+        {if empty($list)}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+            暂时没有相关数据
+        </div>
+        {else}
+        <p>
+            <small><i class="icon-info-sign"></i> 查询到了<strong>{count($list)}</strong>个仓库</small>
+        </p>
+        <table class="table table-hover table-striped" id="bank_list">
+            <thead>
+                <tr>
+                    <th>仓库名称</th>
+                    <th>仓库地址</th>
+                    <th>负责人</th>
+                    <th>库存</th>
+                    <th style="width:50px;text-align:center">默认</th>
+                    <th style="width:50px;text-align:center">修改</th>
+                    <th style="width:50px;text-align:center">删除</th>
+                    <th style="width:50px;text-align:center">排序</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list as $var}
+                <tr categoryid="{$var.w_id}">
+                    <td>{$var.w_name}</td>
+                    <td>{$var.w_address}</td>
+                    <td>{$var.realname}</td>
+                    <td>{$var.number}</td>
+                    <td>{$var.w_default?'<i class="icon-ok"></i>':''}</td>
+                    <td style="text-align:center"><a href="{site 'system/warehouse_edit/'.$var.w_id}" data-title="修改单位" title="修改单位"><i class="icon-edit"></i> 修改</a></td>
+                    <td style="text-align:center">{if empty($var.number)}<a data-trigger="confirm" data-content="你确定要删除吗？删除后无法恢复" href="{site 'system/warehouse_delete/'.$var.w_id}"><i class="icon-remove"></i> 删除</a>{/if}</td>
+                    <td style="text-align:center" onmouseover="onmouseoverdragsort()" onmouseout="onmouseoutdragsort()"><i class="icon-move"></i> 排序</td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {/if}
+    </div>
+    {view 'public/js'}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            onmouseoutdragsort();
+        });
+        function saveOrder() {
+            var data = $("table tbody tr").map(function () {
+                return $(this).attr('categoryid');
+            }).get();
+            ajax_post("{site 'system/warehouse_sort'}", 'sort=' + data.join("|"));
+        }
+        function onmouseoutdragsort() {
+            $("table tbody").dragsort("destroy");
+        }
+        function onmouseoverdragsort() {
+            $("table tbody").dragsort({dragSelector: "tr", dragBetween: true, dragEnd: saveOrder});
+        }
+    </script>
+</body>
+</html>

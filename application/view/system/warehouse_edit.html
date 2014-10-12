@@ -1,0 +1,54 @@
+{view 'public/head'}
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" action="{site 'system/warehouse_edit'}" accept-charset="utf-8" method="post">
+            <input type="hidden" name="w_id" value="{$edit.w_id}" />
+            <div id="legend" class="">
+                <legend class="">新增仓库</legend>
+            </div>
+            <table class="table table-hover">
+
+                <tr>
+                    <th style="line-height:30px;text-align:right">仓库名称<font color="#ff0000">*</font></th>
+                    <td><input type="text" name="w_name" value="{$edit.w_name}" placeholder="" class="input-xlarge" required></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">仓库地址</th>
+                    <td><input type="text" name="w_address" value="{$edit.w_address}" placeholder="" class="input-xlarge"></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">仓库备注</th>
+                    <td><textarea name="w_remark" type="" class="input-xlarge" style="height:60px">{$edit.w_remark}</textarea></td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">默认</th>
+                    <td><label class="checkbox inline">
+                            <input type="checkbox" name="w_default" value="1"{$edit.w_default?' checked="checked"':''}>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right">仓库管理员</th>
+                    <td>
+                        {loop $this->m_staff->finds() as $var}
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="staff[]" value="{$var.uid}"{in_array($var.uid,explode(',', $edit.uid))?' checked="checked"':''}> {$var.realname}
+                        </label>
+                        {/loop}
+                    </td>
+                </tr>
+                <tr>
+                    <th style="line-height:30px;text-align:right"><span class="loading"><img src="{base 'assets/img/loading.gif'}"></span></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary input-small"><i class="icon-save"></i> 保存</button> <button type="reset" class="btn input-small"><i class="icon-refresh"></i> 重置</button>
+                        <a href="{$this->t_client->reffer()}" class="btn" title="查看"><i class="icon-double-angle-left"></i> 返回</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+    {view 'public/js'}
+</body>
+</html>
